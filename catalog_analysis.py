@@ -84,6 +84,26 @@ def count_long_movies(movies, threshold=120):
             result += 1
     return result
 
+def normalize_title(title):
+    words = title.split()
+    result = [w[0].upper() + w[1:] for w in words]
+    return " ".join(result)
+
+def make_slug(title):
+    result = normalize_title(title)
+    return result.lower().replace(" ", "-")
+
+def format_report_line(movie):
+    norm_title = normalize_title(movie["title"])
+    duration = duration_in_hours(movie["duration_min"])
+    sorted_genres = sorted(list(movie["genres"]))
+    genres_str = ", ".join(sorted_genres)
+
+    return (
+        f'"{norm_title}" ({movie["year"]}) — '
+        f'{movie["rating"]}/10, {duration}, жанры: {genres_str}'
+    )
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -103,4 +123,7 @@ if __name__ == "__main__":
         print("Шедевров не найдено")
 
     print(count_long_movies(movies))
+    print(normalize_title("silent hours red green blue"))
+    print(make_slug("silent hours red green blue"))
+    print(format_report_line(movies[0]))
 
