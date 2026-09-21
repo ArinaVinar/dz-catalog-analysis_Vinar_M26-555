@@ -104,6 +104,23 @@ def format_report_line(movie):
         f'{movie["rating"]}/10, {duration}, жанры: {genres_str}'
     )
 
+def titles_sorted_by_rating(movies):
+    result = []
+    sort_movies = sorted(movies, key=lambda m: m["rating"], reverse=True)
+    for i in range(len(sort_movies)):
+        result.append(sort_movies[i]["title"])
+    return result
+
+def top_n_by_rating(movies, n=3):
+    result = []
+    sort_movies = sorted(movies, key=lambda m: m["rating"], reverse=True)
+    if n > len(movies):
+        return
+    for i in range(n):
+        title_rating = (sort_movies[i]["title"], sort_movies[i]["rating"])
+        result.append(title_rating)
+    return result
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -122,8 +139,10 @@ if __name__ == "__main__":
     else:
         print("Шедевров не найдено")
 
-    print(count_long_movies(movies))
-    print(normalize_title("silent hours red green blue"))
-    print(make_slug("silent hours red green blue"))
-    print(format_report_line(movies[0]))
+    # print(count_long_movies(movies))
+    # print(normalize_title("silent hours red green blue"))
+    # print(make_slug("silent hours red green blue"))
+    # print(format_report_line(movies[0]))
+    print(titles_sorted_by_rating(movies))
+    print(top_n_by_rating(movies))
 
