@@ -137,6 +137,20 @@ def actor_filmography(movies):
             actor_films[a].append(m["title"])
     return actor_films
 
+def all_genres(movies):
+    set_genres = set()
+    for m in movies:
+        set_genres = set_genres | m["genres"]
+    return  set_genres
+
+def common_actors(movie1, movie2):
+    return set(movie1["actors"]) & set(movie2["actors"])
+
+def genres_only_in_one(movies_a, movies_b):
+    a_genres = set(movies_a["genres"])
+    b_genres = set(movies_b["genres"])
+    return a_genres - b_genres
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -167,4 +181,6 @@ if __name__ == "__main__":
     # print(top_n_by_rating(movies))
     # print(count_by_genre(movies))
     # print(actor_filmography(movies))
-
+    print(all_genres(movies))
+    print(common_actors(movies[0], movies[4]))
+    print(genres_only_in_one(movies[0], movies[1]))
