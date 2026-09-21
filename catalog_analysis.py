@@ -156,6 +156,31 @@ def iter_high_rated(movies, min_rating=8.0):
         if m["rating"] >= min_rating:
             yield m
 
+def build_report(movies):
+    print("ОТЧЕТ ПО КАТАЛОГУ")
+
+    avg = average_rating(movies)
+    _, _, avg_age = catalog_age_stats(movies)
+    print(f"Средний рейтинг: {avg}")
+    print(f"Средний возраст фильмов: {avg_age} лет \n")
+
+    print("Топ-3 фильма:")
+    sort_mov = sorted(movies, key=lambda m: m["rating"], reverse=True)
+    for m in sort_mov[:3]:
+        print(f"  {format_report_line(m)}")
+    print()
+
+    print("Фильмов по жанрам:")
+    genres_cnt = count_by_genre(movies)
+    sort_genres = sorted(genres_cnt.items(), key=lambda item: item[1], reverse=True)
+    for genre, cnt in sort_genres:
+        print(f"  {genre} - {cnt}")
+    print()
+
+    genres_all = all_genres(movies)
+    sort_genres_all = sorted(list(genres_all))
+    print(f"Все жанры каталога: {', '.join(sort_genres_all)}")
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -189,14 +214,4 @@ if __name__ == "__main__":
     )
     print(f"Суммарная длительность для фильмов с рейтингом выше 7 = {total_duration}")
 
-    # print(count_long_movies(movies))
-    # print(normalize_title("silent hours red green blue"))
-    # print(make_slug("silent hours red green blue"))
-    # print(format_report_line(movies[0]))
-    # print(titles_sorted_by_rating(movies))
-    # print(top_n_by_rating(movies))
-    # print(count_by_genre(movies))
-    # print(actor_filmography(movies))
-    # print(all_genres(movies))
-    # print(common_actors(movies[0], movies[4]))
-    # print(genres_only_in_one(movies[0], movies[1]))
+    build_report(movies)
