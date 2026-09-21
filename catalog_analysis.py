@@ -52,13 +52,34 @@ def catalog_age_stats(movies, current_year=2026):
         avg_ages += age
     return (max(ages), min(ages), math.ceil(avg_ages/len(movies)))
 
-
 def duration_in_hours(minutes):
     time_hour = minutes // 60
     time_min = minutes % 60
     return f"{time_hour}ч {time_min}м"
 
+def rating_tier(rating):
+    masterpiece = "шедевр" if rating >= 9 else None
+    if masterpiece:
+        return masterpiece
+    elif 7 <= rating <= 8.9:
+        return "хорошо"
+    elif 5 <= rating <= 6.9:
+        return "средне"
+    else:
+        return "слабо"
+
+def decade_label(year):
+    match (year):
+        case _ if year > 2020:
+            return "новые"
+        case _ if 2015 <= year <= 2020:
+            return "недавние"
+        case _:
+            return "старые"
+
 if __name__ == "__main__":
     print(average_rating(movies))
     print(catalog_age_stats(movies))
     print(duration_in_hours(155))
+    print(rating_tier(4.5))
+    print(decade_label(2008))
