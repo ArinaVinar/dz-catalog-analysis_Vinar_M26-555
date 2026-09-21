@@ -151,6 +151,11 @@ def genres_only_in_one(movies_a, movies_b):
     b_genres = set(movies_b["genres"])
     return a_genres - b_genres
 
+def iter_high_rated(movies, min_rating=8.0):
+    for m in movies:
+        if m["rating"] >= min_rating:
+            yield m
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -173,6 +178,17 @@ if __name__ == "__main__":
     avg = average_rating(movies)
     print({m["title"]: m["rating"] for m in movies if m["rating"] > avg})
 
+    #Демонстрация работы iter_high_rated
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+
+    #Демонстрация генератора выражения, которое считает
+    #суммарную длительность фильмов с рейтингом выше 7
+    total_duration = sum(
+        m["duration_min"] for m in movies if m["rating"] > 7
+    )
+    print(f"Суммарная длительность для фильмов с рейтингом выше 7 = {total_duration}")
+
     # print(count_long_movies(movies))
     # print(normalize_title("silent hours red green blue"))
     # print(make_slug("silent hours red green blue"))
@@ -181,6 +197,6 @@ if __name__ == "__main__":
     # print(top_n_by_rating(movies))
     # print(count_by_genre(movies))
     # print(actor_filmography(movies))
-    print(all_genres(movies))
-    print(common_actors(movies[0], movies[4]))
-    print(genres_only_in_one(movies[0], movies[1]))
+    # print(all_genres(movies))
+    # print(common_actors(movies[0], movies[4]))
+    # print(genres_only_in_one(movies[0], movies[1]))
