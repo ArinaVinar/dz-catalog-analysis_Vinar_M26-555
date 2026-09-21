@@ -121,6 +121,22 @@ def top_n_by_rating(movies, n=3):
         result.append(title_rating)
     return result
 
+def count_by_genre(movies):
+    genre_cnt = {}
+    for m in movies:
+        for g in m["genres"]:
+            genre_cnt[g] = genre_cnt.get(g, 0) + 1
+    return genre_cnt
+
+def actor_filmography(movies):
+    actor_films = {}
+    for m in movies:
+        for a in m["actors"]:
+            if a not in actor_films:
+                actor_films[a] = []
+            actor_films[a].append(m["title"])
+    return actor_films
+
 if __name__ == "__main__":
     #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
     for i in range(len(movies)):
@@ -139,10 +155,16 @@ if __name__ == "__main__":
     else:
         print("Шедевров не найдено")
 
+    #Вывод словаря (созданный с помощью генератора) фильмов с рейтингов выше среднего
+    avg = average_rating(movies)
+    print({m["title"]: m["rating"] for m in movies if m["rating"] > avg})
+
     # print(count_long_movies(movies))
     # print(normalize_title("silent hours red green blue"))
     # print(make_slug("silent hours red green blue"))
     # print(format_report_line(movies[0]))
-    print(titles_sorted_by_rating(movies))
-    print(top_n_by_rating(movies))
+    # print(titles_sorted_by_rating(movies))
+    # print(top_n_by_rating(movies))
+    # print(count_by_genre(movies))
+    # print(actor_filmography(movies))
 
