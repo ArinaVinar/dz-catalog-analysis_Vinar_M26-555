@@ -37,7 +37,7 @@ def average_rating(movies):
     avg_score = 0.0
     if not movies:
         return avg_score
-    for i in range(len(movies) - 1):
+    for i in range(len(movies)):
         avg_score += movies[i]["rating"]
     return round(avg_score / len(movies), 1)
 
@@ -46,7 +46,7 @@ def catalog_age_stats(movies, current_year=2026):
     avg_ages = 0
     if not movies:
         return ages
-    for i in range(len(movies) - 1):
+    for i in range(len(movies)):
         age = current_year - movies[i]["year"]
         ages.append(age)
         avg_ages += age
@@ -77,9 +77,30 @@ def decade_label(year):
         case _:
             return "старые"
 
+def count_long_movies(movies, threshold=120):
+    result = 0
+    for i in range(len(movies)):
+        if (movies[i]["duration_min"] > threshold):
+            result += 1
+    return result
+
 if __name__ == "__main__":
-    print(average_rating(movies))
-    print(catalog_age_stats(movies))
-    print(duration_in_hours(155))
-    print(rating_tier(4.5))
-    print(decade_label(2008))
+    #Вывод на экран названий всех фильмов, которые не относятся к жанру comedy
+    for i in range(len(movies)):
+        if "comedy" in movies[i]["genres"]:
+            continue
+        else:
+            print(movies[i]["title"])
+
+    #Вывод на экран первый по порядку в списке фильм с рейтингом выше 9.0 или нет такого
+    i = 0
+    while i < len(movies):
+        if movies[i]["rating"] > 9.0:
+            print(f"Найден шедевр: {movies[i]['title']}")
+            break
+        i += 1
+    else:
+        print("Шедевров не найдено")
+
+    print(count_long_movies(movies))
+
